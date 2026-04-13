@@ -1,11 +1,16 @@
 <?php
 
+use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\TagController;
 use Illuminate\Support\Facades\Route;
 
 // ヘルスチェック
 Route::get('/health', fn() => response()->json(['status' => 'ok']));
+
+// 認証
+Route::post('/auth/login', [AuthController::class, 'login']);
+Route::middleware('auth:sanctum')->post('/auth/logout', [AuthController::class, 'logout']);
 
 // 公開API（認証不要）
 Route::get('/posts', [PostController::class, 'index']);
