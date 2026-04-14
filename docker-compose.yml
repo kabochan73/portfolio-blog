@@ -52,6 +52,7 @@ services:
       - /app/.next
     environment:
       - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
+      - API_URL=${API_URL}
 
 volumes:
   mysql_data:
