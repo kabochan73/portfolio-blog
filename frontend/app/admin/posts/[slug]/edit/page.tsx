@@ -115,7 +115,7 @@ export default function EditPostPage({
   if (loading) return <p className="text-zinc-500">読み込み中...</p>;
 
   return (
-    <div>
+    <div className="mx-auto max-w-3xl">
       <h1 className="mb-8 text-2xl font-bold">記事編集</h1>
 
       <div className="space-y-6">

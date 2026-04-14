@@ -85,7 +85,7 @@ export default function NewPostPage() {
   }
 
   return (
-    <div>
+    <div className="mx-auto max-w-3xl">
       <h1 className="mb-8 text-2xl font-bold">新規記事作成</h1>
 
       <div className="space-y-6">

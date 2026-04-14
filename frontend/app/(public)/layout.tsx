@@ -7,7 +7,7 @@ export default function PublicLayout({
 }) {
   return (
     <>
-      <header className="sticky top-0 z-10 border-b border-zinc-200 bg-white">
+      <header className="sticky top-0 z-10 border-b border-zinc-400 bg-white shadow-sm">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-4">
           <Link
             href="/"
