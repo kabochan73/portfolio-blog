@@ -61,7 +61,7 @@ export default function PostList({
         ) : (
           <ul className="space-y-6">
             {filtered.map((post) => (
-              <li key={post.id} className="border-b border-zinc-100 pb-6">
+              <li key={post.id} className="border-b border-zinc-400 pb-6 transition-transform hover:scale-[1.02]">
                 <Link href={`/posts/${post.slug}`} className="group">
                   <h2 className="text-lg font-semibold group-hover:text-blue-600">
                     {post.title}
@@ -90,7 +90,7 @@ export default function PostList({
       </div>
 
       {/* サイドバー */}
-      <aside className="col-span-1 space-y-6">
+      <aside className="col-span-1 space-y-6 sticky top-24 self-start">
         <div>
           <p className="mb-2 text-xl font-semibold uppercase tracking-wide text-zinc-600">
             検索
@@ -113,21 +113,18 @@ export default function PostList({
                   <button
                     key={tag.id}
                     onClick={() => toggleTag(tag.id)}
-                    className={`flex items-center gap-2 rounded px-2 py-1 text-left text-sm transition-colors ${
+                    className="flex items-center gap-2 rounded-full px-3 py-1 text-left text-base font-bold transition-all hover:scale-105 hover:opacity-80"
+                    style={
                       active
-                        ? "bg-zinc-900 text-white hover:bg-zinc-700"
-                        : "text-zinc-700 hover:bg-zinc-300"
-                    }`}
+                        ? { backgroundColor: tag.color, color: "white" }
+                        : { backgroundColor: "transparent", color: "#3f3f46" }
+                    }
                   >
                     <span
-                      className="h-2.5 w-2.5 shrink-0 rounded-full border border-zinc-600"
-                      style={{
-                        backgroundColor: tag.color,
-                      }}
+                      className="h-4 w-4 shrink-0 rounded-full"
+                      style={{ backgroundColor: active ? "white" : tag.color }}
                     />
-                    <span className={active ? "font-medium" : ""}>
-                      {tag.name}
-                    </span>
+                    {tag.name}
                   </button>
                 );
               })}
