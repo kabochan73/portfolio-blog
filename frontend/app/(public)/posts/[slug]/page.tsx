@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
-import MarkdownBody from "../../_components/MarkdownBody";
+import MarkdownBody from "../../../_components/MarkdownBody";
 
 type Tag = {
   id: number;
@@ -58,11 +59,9 @@ export default async function PostPage({
 }: {
   params: Promise<{ slug: string }>;
 }) {
-  // Next.js 16 では params が Promise なので await が必要
   const { slug } = await params;
   const post = await getPost(slug);
 
-  // 記事が見つからなければ 404 ページを表示
   if (!post) notFound();
 
   return (
@@ -88,6 +87,12 @@ export default async function PostPage({
       </header>
 
       <MarkdownBody body={post.body} />
+
+      <div className="mt-12 flex justify-end pt-6">
+        <Link href="/" className="text-xl text-zinc-600 hover:text-zinc-950">
+         一覧へ戻る
+        </Link>
+      </div>
     </article>
   );
 }
