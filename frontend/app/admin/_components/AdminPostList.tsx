@@ -45,6 +45,7 @@ export default function AdminPostList({
   const [posts, setPosts] = useState<Post[]>(initialPosts);
   const [query, setQuery] = useState("");
   const [selectedTagIds, setSelectedTagIds] = useState<number[]>([]);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   function toggleTag(id: number) {
     setSelectedTagIds((prev) =>
@@ -80,6 +81,52 @@ export default function AdminPostList({
     }
   }
 
+  const activeCount = (query.trim() !== "" ? 1 : 0) + selectedTagIds.length;
+
+  const sidebar = (
+    <div className="space-y-6">
+      <div>
+        <p className="mb-2 text-sm font-semibold text-zinc-600">検索</p>
+        <input
+          type="search"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="タイトルで検索"
+          className="w-full rounded-md border border-zinc-300 px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-zinc-500"
+        />
+      </div>
+
+      {tags.length > 0 && (
+        <div>
+          <p className="mb-2 text-sm font-semibold text-zinc-600">タグ</p>
+          <div className="flex flex-col gap-1.5">
+            {tags.map((tag) => {
+              const active = selectedTagIds.includes(tag.id);
+              return (
+                <button
+                  key={tag.id}
+                  onClick={() => toggleTag(tag.id)}
+                  className="flex items-center gap-2 rounded-full px-3 py-1 text-left text-base font-bold transition-all hover:scale-105 hover:opacity-80"
+                  style={
+                    active
+                      ? { backgroundColor: tag.color, color: "white" }
+                      : { backgroundColor: "transparent", color: "#3f3f46" }
+                  }
+                >
+                  <span
+                    className="h-4 w-4 shrink-0 rounded-full"
+                    style={{ backgroundColor: active ? "white" : tag.color }}
+                  />
+                  {tag.name}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+
   return (
     <div>
       <div className="mb-8 flex items-center justify-between">
@@ -92,9 +139,30 @@ export default function AdminPostList({
         </Link>
       </div>
 
-      <div className="grid grid-cols-4 gap-10">
+      {/* スマホ用トグルボタン */}
+      <div className="mb-4 md:hidden">
+        <button
+          onClick={() => setSidebarOpen((prev) => !prev)}
+          className="flex items-center gap-2 rounded-md border border-zinc-300 px-4 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-50"
+        >
+          絞り込み
+          {activeCount > 0 && (
+            <span className="rounded-full bg-zinc-900 px-2 py-0.5 text-xs text-white">
+              {activeCount}
+            </span>
+          )}
+          <span className="ml-1">{sidebarOpen ? "▲" : "▼"}</span>
+        </button>
+        {sidebarOpen && (
+          <div className="mt-3 rounded-md border border-zinc-200 p-4">
+            {sidebar}
+          </div>
+        )}
+      </div>
+
+      <div className="grid grid-cols-1 gap-10 md:grid-cols-4">
         {/* 記事一覧 */}
-        <div className="col-span-3">
+        <div className="md:col-span-3">
           {filtered.length === 0 ? (
             <p className="text-zinc-500">記事がありません。</p>
           ) : (
@@ -142,47 +210,9 @@ export default function AdminPostList({
           )}
         </div>
 
-        {/* サイドバー */}
-        <aside className="col-span-1 space-y-6 sticky top-24 self-start">
-          <div>
-            <p className="mb-2 text-sm font-semibold text-zinc-600">検索</p>
-            <input
-              type="search"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="タイトルで検索"
-              className="w-full rounded-md border border-zinc-300 px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-zinc-500"
-            />
-          </div>
-
-          {tags.length > 0 && (
-            <div>
-              <p className="mb-2 text-sm font-semibold text-zinc-600">タグ</p>
-              <div className="flex flex-col gap-1.5">
-                {tags.map((tag) => {
-                  const active = selectedTagIds.includes(tag.id);
-                  return (
-                    <button
-                      key={tag.id}
-                      onClick={() => toggleTag(tag.id)}
-                      className="flex items-center gap-2 rounded-full px-3 py-1 text-left text-base font-bold transition-all hover:scale-105 hover:opacity-80"
-                      style={
-                        active
-                          ? { backgroundColor: tag.color, color: "white" }
-                          : { backgroundColor: "transparent", color: "#3f3f46" }
-                      }
-                    >
-                      <span
-                        className="h-4 w-4 shrink-0 rounded-full"
-                        style={{ backgroundColor: active ? "white" : tag.color }}
-                      />
-                      {tag.name}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          )}
+        {/* サイドバー（デスクトップのみ） */}
+        <aside className="sticky top-24 col-span-1 hidden self-start md:block">
+          {sidebar}
         </aside>
       </div>
     </div>
