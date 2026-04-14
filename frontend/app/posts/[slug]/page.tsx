@@ -66,11 +66,11 @@ export default async function PostPage({
   if (!post) notFound();
 
   return (
-    <article>
+    <article className="mx-auto max-w-3xl">
       <header className="mb-8">
         <h1 className="text-3xl font-bold leading-snug">{post.title}</h1>
         <div className="mt-3 flex items-center gap-3">
-          <time className="text-sm text-zinc-500">
+          <time className="text-sm text-zinc-700">
             {formatDate(post.published_at)}
           </time>
           <div className="flex gap-2">
