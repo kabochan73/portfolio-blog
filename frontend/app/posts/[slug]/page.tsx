@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import MarkdownBody from "./MarkdownBody";
 
 type Tag = {
   id: number;
@@ -86,9 +87,7 @@ export default async function PostPage({
         </div>
       </header>
 
-      <div className="prose max-w-none whitespace-pre-wrap text-zinc-800">
-        {post.body}
-      </div>
+      <MarkdownBody body={post.body} />
     </article>
   );
 }
