@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { use } from "react";
+import MarkdownBody from "../../../../_components/MarkdownBody";
 
 type Tag = {
   id: number;
@@ -39,6 +40,7 @@ export default function EditPostPage({
   const [selectedTagIds, setSelectedTagIds] = useState<number[]>([]);
   const [publishedAt, setPublishedAt] = useState<string | null>(null);
   const [tags, setTags] = useState<Tag[]>([]);
+  const [tab, setTab] = useState<"edit" | "preview">("edit");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -158,15 +160,43 @@ export default function EditPostPage({
 
         {/* 本文 */}
         <div>
-          <label className="mb-1 block text-sm font-medium text-zinc-700">
-            本文（Markdown）
-          </label>
-          <textarea
-            value={body}
-            onChange={(e) => setBody(e.target.value)}
-            rows={20}
-            className="w-full rounded-md border border-zinc-300 px-3 py-2 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-zinc-500"
-          />
+          <div className="mb-2 flex items-center justify-between">
+            <label className="text-sm font-medium text-zinc-700">
+              本文（Markdown）
+            </label>
+            <div className="flex rounded-md border border-zinc-300 text-sm">
+              <button
+                type="button"
+                onClick={() => setTab("edit")}
+                className={`px-3 py-1 ${tab === "edit" ? "bg-zinc-900 text-white" : "text-zinc-600 hover:bg-zinc-50"}`}
+              >
+                編集
+              </button>
+              <button
+                type="button"
+                onClick={() => setTab("preview")}
+                className={`px-3 py-1 ${tab === "preview" ? "bg-zinc-900 text-white" : "text-zinc-600 hover:bg-zinc-50"}`}
+              >
+                プレビュー
+              </button>
+            </div>
+          </div>
+          {tab === "edit" ? (
+            <textarea
+              value={body}
+              onChange={(e) => setBody(e.target.value)}
+              rows={20}
+              className="w-full rounded-md border border-zinc-300 px-3 py-2 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-zinc-500"
+            />
+          ) : (
+            <div className="min-h-120 rounded-md border border-zinc-300 px-4 py-3">
+              {body.trim() ? (
+                <MarkdownBody body={body} />
+              ) : (
+                <p className="text-sm text-zinc-400">本文がありません</p>
+              )}
+            </div>
+          )}
         </div>
 
         {error && <p className="text-sm text-red-500">{error}</p>}

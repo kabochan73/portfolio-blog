@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import MarkdownBody from "./MarkdownBody";
+import MarkdownBody from "../../_components/MarkdownBody";
 
 type Tag = {
   id: number;
