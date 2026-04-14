@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import AdminPostList from "../_components/AdminPostList";
+import AdminPostList from "../../_components/AdminPostList";
 
 type Tag = {
   id: number;
@@ -23,7 +23,7 @@ function getToken(): string {
   return match ? match[1] : "";
 }
 
-export default function AdminPostsPage() {
+export default function AdminDraftsPage() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [tags, setTags] = useState<Tag[]>([]);
   const [loading, setLoading] = useState(true);
@@ -35,7 +35,7 @@ export default function AdminPostsPage() {
       }).then((r) => r.json()),
       fetch(`${process.env.NEXT_PUBLIC_API_URL}/tags`).then((r) => r.json()),
     ]).then(([allPosts, allTags]) => {
-      setPosts(allPosts.filter((p: Post) => p.published_at !== null));
+      setPosts(allPosts.filter((p: Post) => p.published_at === null));
       setTags(allTags);
       setLoading(false);
     });
@@ -43,5 +43,5 @@ export default function AdminPostsPage() {
 
   if (loading) return <p className="text-zinc-500">読み込み中...</p>;
 
-  return <AdminPostList title="公開済み記事" posts={posts} tags={tags} />;
+  return <AdminPostList title="下書き" posts={posts} tags={tags} />;
 }

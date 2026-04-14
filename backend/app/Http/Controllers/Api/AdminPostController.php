@@ -11,6 +11,31 @@ use Illuminate\Support\Str;
 class AdminPostController extends Controller
 {
     /**
+     * 全記事一覧（下書き含む）
+     */
+    public function index(): JsonResponse
+    {
+        $posts = Post::query()
+            ->with('tags')
+            ->orderByDesc('created_at')
+            ->get()
+            ->map(fn($post) => [
+                'id'           => $post->id,
+                'title'        => $post->title,
+                'slug'         => $post->slug,
+                'published_at' => $post->published_at,
+                'tags'         => $post->tags->map(fn($tag) => [
+                    'id'    => $tag->id,
+                    'name'  => $tag->name,
+                    'slug'  => $tag->slug,
+                    'color' => $tag->color,
+                ]),
+            ]);
+
+        return response()->json($posts);
+    }
+
+    /**
      * 記事作成（下書き・公開どちらも対応）
      */
     public function store(Request $request): JsonResponse

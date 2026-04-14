@@ -90,9 +90,6 @@ export default function AdminTagsPage() {
 
       {/* 新規作成フォーム */}
       <section className="mb-10">
-        <h2 className="mb-4 text-sm font-semibold uppercase tracking-wide text-zinc-500">
-          新規タグ作成
-        </h2>
         <form onSubmit={handleCreate} className="flex items-end gap-3">
           <div>
             <label className="mb-1 block text-sm font-medium text-zinc-700">
@@ -103,7 +100,7 @@ export default function AdminTagsPage() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               maxLength={20}
-              className="rounded-md border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-500"
+              className="rounded-md border border-zinc-400 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-600"
               placeholder="例：Next.js"
             />
           </div>
@@ -115,7 +112,7 @@ export default function AdminTagsPage() {
               type="color"
               value={color}
               onChange={(e) => setColor(e.target.value)}
-              className="h-9 w-12 cursor-pointer rounded-md border border-zinc-300 p-0.5"
+              className="h-9 w-12 cursor-pointer rounded-md border border-zinc-600 p-0.5"
             />
           </div>
           <button
@@ -143,7 +140,7 @@ export default function AdminTagsPage() {
             {tags.map((tag) => (
               <li
                 key={tag.id}
-                className="flex items-center justify-between rounded-md border border-zinc-100 px-4 py-3"
+                className="flex items-center justify-between rounded-md border border-zinc-400 px-4 py-3"
               >
                 <div className="flex items-center gap-3">
                   <span

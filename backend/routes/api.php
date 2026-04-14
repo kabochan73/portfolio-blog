@@ -21,6 +21,7 @@ Route::get('/tags', [TagController::class, 'index']);
 
 // 管理者API（要認証）
 Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
+    Route::get('/posts', [AdminPostController::class, 'index']);
     Route::post('/posts', [AdminPostController::class, 'store']);
     Route::put('/posts/{slug}', [AdminPostController::class, 'update']);
     Route::delete('/posts/{slug}', [AdminPostController::class, 'destroy']);
