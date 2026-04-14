@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api\AdminPostController;
+use App\Http\Controllers\Api\AdminTagController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\TagController;
@@ -16,3 +18,13 @@ Route::middleware('auth:sanctum')->post('/auth/logout', [AuthController::class, 
 Route::get('/posts', [PostController::class, 'index']);
 Route::get('/posts/{slug}', [PostController::class, 'show']);
 Route::get('/tags', [TagController::class, 'index']);
+
+// 管理者API（要認証）
+Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
+    Route::post('/posts', [AdminPostController::class, 'store']);
+    Route::put('/posts/{slug}', [AdminPostController::class, 'update']);
+    Route::delete('/posts/{slug}', [AdminPostController::class, 'destroy']);
+
+    Route::post('/tags', [AdminTagController::class, 'store']);
+    Route::delete('/tags/{slug}', [AdminTagController::class, 'destroy']);
+});
